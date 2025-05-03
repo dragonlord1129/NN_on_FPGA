@@ -118,8 +118,23 @@ module neuron #(
     );
     generate
         if(actType == "sigmoid") begin:siginst
-            Sig            
+            sigmoid_rom #(.inWidth(sigmoidSize), .dataWidth(dataWidth)) s1(
+                .clk(clk),
+                .x(sum[2*dataWidth-1:sigmoidSize]),
+                .out(out)
+            );
+        end
+        else begin:ReLuinst
+            ReLu #(.dataWidth(dataWidth), .weightInWidth(weightInWidth)) s1 (
+                .clk(clk),
+                .x(sum),
+                .out(out)
+            );         
         end
     endgenerate
-
+    `ifdef DEBUG
+        always @(posedge clk) begin
+            if(outvalid) $display(neuronNo,,,,"%b",out);
+        end
+    `endif
 endmodule
