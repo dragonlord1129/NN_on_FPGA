@@ -86,7 +86,40 @@ module neuron #(
             else sum<= BiasAdd;
         end
         else if(mux_valid) begin
-            if()
+            if(!mul[2*dataWidth-1] & !sum[2*dataWidth-1] & comboAdd[2*dataWidth-1]) begin
+                sum[2*dataWidth-1] <= 1'b0;
+                sum[2*dataWidth-2:0] <= {2*dataWidth-1{1'b1}};
+            end
+            else if(mul[2*dataWidth-1] & sum[2*dataWidth-1] & !comboAdd[2*dataWidth-1]) begin
+                sum[2*dataWidth-1] <= 1'b1;
+                sum[2*dataWidth-2:0] <= {2*dataWidth-1{1'b0}};
+            end
+            else sum <= comboAdd;
         end
     end
+    always @(posedge clk) begin
+        myInputd <= myInput;
+        weight_valid <= myInputValid;
+        mult_valid <= weight_valid;
+        sigValid <= ((r_addr == numWeight) & mux_valid_f) ? 1'b1 : 1'b0;
+        outvalid <= sigValid;
+        mux_valid_d <= mux_valid;
+        mux_valid_f <= !mux_valid & mux_valid_d;
+    end
+
+    weight_memory #(parameter numWeight(numWeight), neuronNo(neuronNo), layerNo(layerNo), addressWidth(addressWidth), dataWidth(dataWidth), weightFile="weightFile") WM(
+        .clk(clk),
+        .wen(wen),
+        .ren(ren),
+        .waddr(w_addr),
+        .raddr(r_addr),
+        .win(w_in),
+        .wout(w_out)
+    );
+    generate
+        if(actType == "sigmoid") begin:siginst
+            Sig            
+        end
+    endgenerate
+
 endmodule
