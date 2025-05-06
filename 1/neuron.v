@@ -1,6 +1,6 @@
 `include "include.v"
 module neuron #( 
-    parameter layerNo=0, neuronNo=0, numWeight=784, dataWidth=16, sigmoidSize=5, weightInWidth=1, actType="relu", biasFile="", weightFile="",
+    parameter layerNo=0, neuronNo=0, numWeight=784, dataWidth=16, sigmoidSize=10, weightInWidth=1, actType="relu", biasFile="", weightFile="",
 ) (
     input clk, rst,
     input myInputValid, weightValid, biasValid,
@@ -120,7 +120,7 @@ module neuron #(
         if(actType == "sigmoid") begin:siginst
             sigmoid_rom #(.inWidth(sigmoidSize), .dataWidth(dataWidth)) s1(
                 .clk(clk),
-                .x(sum[2*dataWidth-1:sigmoidSize]),
+                .x(sum[2*dataWidth-1-:sigmoidSize]),
                 .out(out)
             );
         end
