@@ -1,6 +1,6 @@
 `include "include.v"
 module neuron #( 
-    parameter layerNo=0, neuronNo=0, numWeight=784, dataWidth=16, sigmoidSize=10, weightInWidth=1, actType="relu", biasFile="", weightFile="",
+    parameter layerNo=0, neuronNo=0, numWeight=784, dataWidth=16, sigmoidSize=10, weightInWidth=1, actType="relu", biasFile="b_1_15.mif", weightFile="w_1_15.mif",
 ) (
     input clk, rst,
     input myInputValid, weightValid, biasValid,
